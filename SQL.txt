@@ -1,0 +1,781 @@
+create table users
+(
+user_email varchar2(40) primary key,
+first_name varchar2(10),
+last_name varchar2(10),
+user_password number(20) NOT NULL ,
+year_of_birth number(4)
+);
+------------------------------------------------------------------------
+CREATE TABLE Subsciption
+(
+Bank_Card number (14) PRIMARY Key,
+Payment_Amount number (4) not null,
+Period varchar2 (2) NOT NULL,
+Number_Of_screens number (1) not null,
+Sub_date Date, 
+usr_email varchar2(40) 
+ REFERENCES users (user_email)
+);
+------------------------------------------------------------------------
+CREATE TABLE Content(
+Content_Id number (2) PRIMARY key,
+Name Varchar2 (30) NOT NULL,
+Director VarChar2 (20) NOT NULL,
+Rate number (3,1) ,
+Release_Date Date ,
+Seasons number (2),
+Age_Limit number (2),
+content_type VarChar2 (30)
+);
+------------------------------------------------------------------------
+CREATE TABLE Subsciption_For_Content (
+	Bank_Card	Number (14),
+	Content_ID	number (2),
+	E_Mail	varchar2(40),
+	FOREIGN KEY( E_Mail ) REFERENCES  users ( user_email ),
+	FOREIGN KEY( Bank_Card ) REFERENCES  Subsciption ( Bank_Card ),
+	PRIMARY KEY( E_Mail , Content_ID ,  Bank_Card ),
+	FOREIGN KEY( Content_ID ) REFERENCES  Content ( Content_Id )
+);
+------------------------------------------------------------------------
+CREATE TABLE  Films  (
+	Films_ID 	number (2),
+	Duration	number (3,2) NOT NULL,
+        name  VarChar2 (30),
+	FOREIGN KEY( Films_ID ) REFERENCES  Content ( Content_Id ),
+	PRIMARY KEY( Films_ID )
+);
+------------------------------------------------------------------------
+create table TV_shows
+(shows_id number(3) primary key,
+number_of_episodes number(3) 
+ name  VarChar2 (30),
+FOREIGN KEY( shows_id) REFERENCES  Content ( Content_Id )
+);
+------------------------------------------------------------------------
+create table Series
+(Series_id number(3) primary key,
+number_of_episodes number(3),
+name  VarChar2 (30),
+FOREIGN KEY( Series_id) REFERENCES  Content ( Content_Id ) 
+);
+------------------------------------------------------------------------
+CREATE TABLE  Eposides_of_series (
+	 Series_Id      Number(3),
+	 Episode_Number	Number(3),
+	 Rate	Number (3,1) NOT NULL,
+	 Duration 	number (3,2) NOT NULL,
+	FOREIGN KEY( Series_Id ) REFERENCES  Series ( Series_id ),
+	PRIMARY KEY( Series_Id , Episode_Number )
+);
+------------------------------------------------------------------------
+CREATE TABLE  Eposides_of_shows
+ (
+  shows_id	number (2) ,
+	Episode_Number	Number(2),
+	Rate 	Number(3,1) NOT NULL,
+	Duration	number (3,2) NOT NULL,
+	FOREIGN KEY( shows_Id ) REFERENCES  TV_SHOWS ( TV_SHOWS_ID ),
+	PRIMARY KEY( shows_Id , Episode_Number )
+);---------------------------------------------------------------------
+CREATE TABLE Search_For_Content  (
+	E_Mail	Varchar2 (40),
+	Content_ID	number (2),
+	FOREIGN KEY( E_Mail ) REFERENCES  users ( user_email ),
+	FOREIGN KEY( Content_ID ) REFERENCES  Content ( Content_Id ),
+	PRIMARY KEY( E_Mail , Content_ID )
+);
+------------------------------------------------------------------------
+CREATE TABLE  Main_Character  (
+	Content_Main_Character	Varchar2 (30),
+	Content_ID	Number (2),
+        Name Varchar2 (30) NOT NULL,
+	FOREIGN KEY( Content_ID ) REFERENCES  Content ( Content_Id ),
+	PRIMARY KEY( Content_Main_Character , Content_ID )
+);
+------------------------------------------------------------------------
+CREATE TABLE Content_genre(
+	Content_type	varchar2(15),
+	Content_Id	number(2),
+	FOREIGN KEY( Content_Id ) REFERENCES  Content ( Content_Id ),
+	PRIMARY KEY( Content_Id , Content_type )
+);
+
+------------------------------------------------------------------------
+insert into users (user_email, user_password, first_name, last_name, year_of_birth)
+values('EmanSaid@gmail.com',123,'Eman','Said',2003);
+------------------------------------------------------------------------
+insert into users (user_email, user_password, first_name, last_name, year_of_birth)
+values('BassantHussein@gmail.com',456,'Bassant','Hussein',2002);
+------------------------------------------------------------------------
+insert into users (user_email, user_password, first_name, last_name, year_of_birth)
+values('RoaaAyman@gmail.com',789,'Roaa','Ayman',2001 );
+------------------------------------------------------------------------
+insert into users (user_email, user_password, first_name, last_name, year_of_birth)
+values('RawanMohamed@gmail.com',101,'Rawan','Mohamed',2000);
+------------------------------------------------------------------------
+insert into users (user_email, user_password, first_name, last_name, year_of_birth)
+values('DanaaAhmed@gmail.com',102,'Danaa','Ahmed',2004);
+------------------------------------------------------------------------
+insert into users (user_email, user_password, first_name, last_name, year_of_birth)
+values('ShamsMagdy@gmail.com',103,'Shams','Magdy',2005);
+------------------------------------------------------------------------
+insert into users (user_email, user_password, first_name, last_name, year_of_birth)
+values('AliEbrahim@gmail.com',104,'Ali','Ebrahim',2006);
+------------------------------------------------------------------------
+
+insert into subscription (bank_card, payment_amount, period, number_of_screens, sub_date, usr_email)
+values(12345678910,140, 12 ,1, sysdate,'EmanSaid@gmail.com');
+------------------------------------------------------------------------
+insert into subscription (bank_card, payment_amount, period, number_of_screens, sub_date, usr_email)
+values(12345678911,15, 1 ,1, '15-dec-2022','BassantHussein@gmail.com');
+------------------------------------------------------------------------
+insert into subscription (bank_card, payment_amount, period, number_of_screens, sub_date, usr_email)
+values(12345678912,240, 12 ,2, '1-dec-2022','RawanMohamed@gmail.com');
+------------------------------------------------------------------------
+insert into subscription (bank_card, payment_amount, period, number_of_screens, sub_date, usr_email)
+values(12345678913,25, 1 , 1, '13-dec-2022','DanaaAhmed@gmail.com');
+------------------------------------------------------------------------
+insert into subscription (bank_card, payment_amount, period, number_of_screens, sub_date, usr_email)
+values(12345678914,400, 12 ,3, '8-dec-2022','ShamsMagdy@gmail.com');
+------------------------------------------------------------------------
+insert into subscription (bank_card, payment_amount, period, number_of_screens, sub_date, usr_email)
+values(12345678917,400, 12 ,3, '8-dec-2022','AliEbrahim@gmail.com');
+------------------------------------------------------------------------
+insert into subscription (bank_card, payment_amount, period, number_of_screens, sub_date, usr_email)
+values(12345678915,250, 12 ,2, '3-dec-2022','RoaaAyman@gmail.com');
+
+
+
+insert into CONTENT (CONTENT_ID , Name , Director , Rate , Release_Date , Seasons ,Age_Limit , content_type)
+values (1 , 'El Haramy', 'Mohamed Salama' , 6.4 , '1-JUL-2020' , 1 , 12 ,'Series');
+------------------------------------------------------------------------
+insert into CONTENT (CONTENT_ID , Name , Director , Rate , Release_Date , Seasons ,Age_Limit , content_type)
+values (2 , 'Shaqah 6', 'Mostafa Youry' , 6.4 , '19-AUG-2021' , 1 , 14 ,'Series');
+------------------------------------------------------------------------
+insert into CONTENT (CONTENT_ID , Name , Director , Rate , Release_Date , Seasons ,Age_Limit , content_type)
+values (3 , 'Fe kol osbo3 youm gom3a', 'Mohamed Shaker' , 8.4 , '15-JAN-2020' , 1 , 14 ,'Series');
+------------------------------------------------------------------------
+insert into CONTENT (CONTENT_ID , Name , Director , Rate , Release_Date , Seasons ,Age_Limit , content_type)
+values (4 , 'Ma waraa Al Tabea', 'Amr Salama' , 8, '05-NOV-2020' , 1 , 16 ,'Series');
+------------------------------------------------------------------------
+insert into CONTENT (CONTENT_ID , Name , Director , Rate , Release_Date , Seasons ,Age_Limit , content_type)
+values (5 , '60 Daqiqa', 'Mohamed Hisham' , 7.6 , '16-SEP-2021' , 1 , 18 ,'Series');
+------------------------------------------------------------------------
+insert into content (content_id, name, director, rate, release_date, seasons, age_limit , content_type) 
+values (6,'3 Fe wahed','Waael Nassef',7.6,'24-MAR-2017',1,12 ,'Tv_Show');
+------------------------------------------------------------------------
+insert into content (content_id, name, director, rate, release_date, seasons, age_limit , content_type) 
+values (7,'Arab Casting','Samer Dadanyan',7.1,'22-OCT-2015',1,12 ,'Tv_Show');
+------------------------------------------------------------------------
+insert into content (content_id, name, director, rate, release_date, seasons, age_limit , content_type) 
+values (8,'Tahdy el cheif','Rany Betar',8,'11-MAY-2021',1,8 ,'Tv_Show');
+------------------------------------------------------------------------
+insert into content (content_id, name, director, rate, release_date, seasons, age_limit , content_type) 
+values (9,'El Dom','Bassel Mubarak',5.5,'11-FEB-2022',1,12 ,'Tv_Show');
+------------------------------------------------------------------------
+insert into content (content_id, name, director, rate, release_date, seasons, age_limit , content_type) 
+values (10,'The mask','Sherif Ahmed Samer',6.9,'02-MAR-2022',1,16 ,'Tv_Show');
+------------------------------------------------------------------------
+insert into CONTENT (CONTENT_ID , Name , Director , Rate , Release_Date , Seasons , Age_Limit, content_type)
+values (11 , 'Bahebek' , 'Tamer Hosney' , 5 , '7-July-2022' , 1 , 14 ,'Film');
+------------------------------------------------------------------------
+insert into CONTENT (CONTENT_ID , Name , Director , Rate , Release_Date , Seasons ,Age_Limit , content_type)
+values (12 , 'Mousa' , 'Ahmed Khaled Mousa' , 6.2 , '11-August-2021' , 1 , 12 ,'Film');
+------------------------------------------------------------------------
+insert into CONTENT (CONTENT_ID , Name , Director , Rate , Release_Date , Seasons ,Age_Limit , content_type)
+values (13 , 'Kira W El Gin' , 'Mrawan Hmid' , 8.1 , '30-June-2022' , 1 , 14 ,'Film');
+------------------------------------------------------------------------
+insert into CONTENT (CONTENT_ID , Name , Director , Rate , Release_Date , Seasons , Age_Limit , content_type)
+values (14 , 'Casablanca' , 'Peter MiMi' , 6.1 , '4-June-2019' , 1 , 14 ,'Film');
+------------------------------------------------------------------------
+insert into CONTENT (CONTENT_ID , Name , Director , Rate , Release_Date , Seasons ,Age_Limit , content_type)
+values (15 , 'Omar W Salma' , 'Akram Farid' , 5 , '6-June-2007' , 3 ,16 ,'Film');
+------------------------------------------------------------------------
+insert into CONTENT (CONTENT_ID , Name , Director , Rate , Release_Date , Seasons , Age_Limit , content_type)
+values (16 , 'H Dabor' , 'Ahmed El Gendy' , 6.3 , '1-August-2008' , 1 , 8 ,'Film');
+------------------------------------------------------------------------
+insert into CONTENT (CONTENT_ID , Name , Director , Rate , Release_Date , Seasons ,Age_Limit , content_type)
+values (17 , 'El Fil El Azrak' , 'Mrawan Hmid' , 8.1 , '25-July-2019' , 2  , 16 ,'Film');
+------------------------------------------------------------------------
+insert into CONTENT (CONTENT_ID , Name , Director , Rate , Release_Date , Seasons ,Age_Limit , content_type)
+values (18 , 'Keda Reda' , 'Ahmed Nader Galal' , 7.5 , '1-August-2007' , 1 ,10 ,'Film');
+------------------------------------------------------------------------
+insert into CONTENT (CONTENT_ID , Name , Director , Rate , Release_Date , Seasons ,Age_Limit , content_type)
+values (19 , 'Hepta' , 'Hady El Bagory' , 7.6 , '20-April-2016' , 1 ,14 ,'Film');
+------------------------------------------------------------------------
+insert into CONTENT (CONTENT_ID , Name , Director , Rate , Release_Date , Seasons ,Age_Limit , content_type)
+values (20 , 'X large' , 'Shrief Arafa' , 7.3 , '2-November-2011' , 1 , 8 ,'Film');
+
+
+begin 
+
+for i in 1..20
+loop 
+
+  insert into SUBSCIPTION_FOR_CONTENT (BANK_CARD, E_MAIL, CONTENT_ID)
+  values(12345678911,'BassantHussein@gmail.com',i);
+
+End loop;
+end;
+------------------------------------------------------------------------
+begin 
+
+for i in 1..20
+loop 
+
+  insert into SUBSCIPTION_FOR_CONTENT (BANK_CARD, E_MAIL, CONTENT_ID)
+  values(12345678910,'EmanSaid@gmail.com',i);
+
+End loop;
+end;
+------------------------------------------------------------------------
+begin 
+
+for i in 1..20
+loop 
+
+  insert into SUBSCIPTION_FOR_CONTENT (BANK_CARD, E_MAIL, CONTENT_ID)
+  values(12345678912,'RawanMohamed@gmail.com',i);
+
+End loop;
+end;
+------------------------------------------------------------------------
+begin 
+
+for i in 1..20
+loop 
+
+  insert into SUBSCIPTION_FOR_CONTENT (BANK_CARD, E_MAIL, CONTENT_ID)
+  values(12345678913,'DanaaAhmed@gmail.com',i);
+
+End loop;
+end;
+
+------------------------------------------------------------------------
+begin 
+
+for i in 1..20
+loop 
+
+  insert into SUBSCIPTION_FOR_CONTENT (BANK_CARD, E_MAIL, CONTENT_ID)
+  values(12345678914,'ShamsMagdy@gmail.com',i);
+
+End loop;
+end;
+------------------------------------------------------------------------
+
+insert into FILMS(FILMS_ID , DURATION , NAME)
+values(11 , 1.5 , 'Bahebek');
+
+insert into FILMS(FILMS_ID , DURATION , NAME)
+values(12 , 1.45 , 'Mousa');
+
+insert into FILMS(FILMS_ID , DURATION , NAME)
+values(13 , 2.32 , 'Kira W El Gin');
+
+insert into FILMS(FILMS_ID , DURATION , NAME)
+values(14 , 1.42 , 'Casablanca');
+
+insert into FILMS(FILMS_ID , DURATION , NAME)
+values(15 , 1.52 , 'Omar W Salma');
+
+insert into FILMS(FILMS_ID , DURATION , NAME)
+values(16 , 1.35 , 'H Dabor');
+
+insert into FILMS(FILMS_ID , DURATION , NAME)
+values(17 , 2.15 , 'El Fil El Azrak');
+
+insert into FILMS(FILMS_ID , DURATION , NAME)
+values(18 , 1.55 , 'Keda Reda');
+
+insert into FILMS(FILMS_ID , DURATION , NAME)
+values(19 , 1.38 , 'Hepta');
+
+insert into FILMS(FILMS_ID , DURATION , NAME)
+values(20 , 1.38 , 'X large');
+------------------------------------------------------------------------
+insert into TV_SHOWS (SHOWS_ID , NUMBER_OF_EPISODES , NAME)
+values(6, 25 ,'3 Fe wahed');
+
+insert into TV_SHOWS (SHOWS_ID , NUMBER_OF_EPISODES , NAME)
+values(7, 28 ,'Arab Casting');
+
+insert into TV_SHOWS (SHOWS_ID , NUMBER_OF_EPISODES , NAME)
+values(8, 13 ,'Tahdy el cheif');
+
+insert into TV_SHOWS (SHOWS_ID , NUMBER_OF_EPISODES , NAME)
+values(9, 20 ,'El Dom');
+
+insert into TV_SHOWS (SHOWS_ID , NUMBER_OF_EPISODES , NAME)
+values(10, 30 ,'The mask');
+
+------------------------------------------------------------------------
+
+insert into Series(SERIES_ID,NUMBER_OF_EPISODES, name)
+values(1,10 ,'el hramy');
+
+insert into Series(SERIES_ID,NUMBER_OF_EPISODES, name)
+values(2,15 ,'shaqah 6');
+
+insert into Series(SERIES_ID,NUMBER_OF_EPISODES, name)
+values(3, 10 ,'fe kol osbo3 yom gomaa');
+
+insert into Series(SERIES_ID,NUMBER_OF_EPISODES, name)
+values(4, 6 ,'ma waraa al tabe`a');
+
+insert into Series(SERIES_ID,NUMBER_OF_EPISODES, name)
+values(5, 9 ,'60 daqiqa');
+
+------------------------------------------------------------------------
+
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION) 
+VALUES ( 1 , 1 , 7 , 14 );
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION) 
+VALUES (1, 2, 8, 12);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION) 
+VALUES (1, 3, 8.5, 15);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION)
+VALUES (1,4,6.7, 17);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION) 
+VALUES (1, 5, 6.3, 12);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION) 
+VALUES (1, 6, 7, 15);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION) 
+VALUES (1, 7, 8, 18);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION) 
+VALUES (1, 8, 9, 16);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION) 
+VALUES (1, 9, 9.1, 15);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION) 
+VALUES (1, 10, 8.3, 12);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION) 
+VALUES (2, 1, 8, 42);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION) 
+VALUES ('2', 2, 9, 40);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION) 
+VALUES (2, 3, 6, 39);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION) 
+VALUES (2, 4, 6.3, 47);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION) 
+VALUES (2, 5, 4.5, 40);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION) 
+VALUES (2, 6, 8, 39);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION) 
+VALUES (2, 7, 9.3, 37);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION) 
+VALUES (2, 8, 7.1, 42);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION) 
+VALUES (2, 9, 7.4, 40);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION) 
+VALUES (2, 10, 8.2, 45);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION) 
+VALUES (2, 11, 8.6, 44);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION) 
+VALUES (2, 12, 7.8, 38);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION) 
+VALUES (2, 13, 6, 42);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION) 
+VALUES (2, 14, 7, 36);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION) 
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION)
+ VALUES (3, 1, 9, 42);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION)
+VALUES (3, 2, 9.3, 41);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION)
+VALUES (3, 3, 9.1,40);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION)
+ VALUES (3, 4, 9.4, 39);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION)
+VALUES (3, 5,8.9, 40);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION)
+ VALUES (3, 6, 8.8, 38);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION)
+VALUES (3, 7, 7.9, 42);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION)
+ VALUES (3, 8, 8.1, 37);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION)
+VALUES (3, 9, 9.2, 44);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION)
+VALUES (3, 10, 9.1, 45);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION)
+VALUES (4, 1, 8.2, 41);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION)
+VALUES (4, 2, 8.5, 38);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION)
+VALUES (4, 3, 7.3, 45);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION)
+VALUES (4, 4, 8.6, 48);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION)
+VALUES (4, 5 , 7.9, 38);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION)
+VALUES (4, 6, 8.2, 41);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION)
+VALUES (5, 1, 8.6, 35);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION)
+VALUES (5, 2 , 8.2, 34);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION)
+VALUES (5, 3, 7.2, 40);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION)
+VALUES (5, 4, 8.1, 32);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION)
+VALUES (5, 5 , 6.8, 42;
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION)
+VALUES (5, 6 , 7.5 , 35);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION)
+VALUES (5, 7, 8.4, 45);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION)
+VALUES (5, 8, 7.8, 35);
+
+INSERT INTO EPOSIDES_OF_SERIES (SERIES_ID, EPISODE_NUMBER, RATE, DURATION)
+VALUES (5, 9, 8.8, 46);
+
+---------------------------------------------------------------------------
+
+begin 
+
+for i in 1..25
+loop 
+
+  insert into EPOSIDES_OF_SHOWS (SHOWS_ID, episode_number, duration, rate)
+  values(6 , i , 30 , 7.8);
+
+End loop;
+end;
+---------------------------------------------------------------------------
+begin 
+
+for i in 1..28
+loop 
+
+  insert into EPOSIDES_OF_SHOWS (SHOWS_ID, episode_number, duration, rate)
+  values(7 , i , 45 , 6.5 );
+
+End loop;
+end;
+---------------------------------------------------------------------------
+begin 
+
+for i in 1..13
+loop 
+
+  insert into EPOSIDES_OF_SHOWS (SHOWS_ID, episode_number, duration, rate)
+  values(8 , i , 35 , 8.1 );
+
+End loop;
+end;
+---------------------------------------------------------------------------
+begin 
+
+for i in 1..20
+loop 
+
+  insert into EPOSIDES_OF_SHOWS (SHOWS_ID, episode_number, duration, rate)
+  values(9 , i , 42 , 6.2 );
+
+End loop;
+end;
+---------------------------------------------------------------------------
+begin 
+
+for i in 1..30
+loop 
+
+  insert into EPOSIDES_OF_SHOWS (SHOWS_ID, episode_number, duration, rate)
+  values(10 , i , 32 , 8.1 );
+
+End loop;
+end;
+
+---------------------------------------------------------------------------
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES ('Rania Youssef', 1 , ' el hramy');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES ('Bayoumi Foad', 1 , 'el hramy');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name)  
+VALUES ('Ruby', 2 , 'shaqah 6');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES ('Menna Shalabi', 3 , 'fe kol osbo3 yom gomaa');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES ('Asser Yassin', 3 , 'fe kol osbo3 yom gomaa');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES ('Ahmed Amin', 4 ,'ma waraa al tabe`a');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES ('Yasmine Raes', 5 , '60 daqiqa');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES (6,'Shaimaa Sief' , '3 Fe wahed');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES (7,'Bassel Khayat' , 'Arab Casting');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES (8,'Mohanad Hatab' , 'Tahdy el cheif');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES (9,'Yousef Osman' , 'El Dom');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES (10,'Kossay Kholy' , 'The mask');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES ( 'Tamer Hosney' , 11 , 'Bahebek');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES ( 'Hana El Zahed ' , 11 , 'Bahebek');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES ( 'Huda El Mofty' , 11 , 'Bahebek');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES ( 'Karim Mahmoud Abdelaziz ' , 12 , 'Mousa' );
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES ( 'Karim Abdelaziz' , 13 , 'Kira W El Gin');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES ( 'Ahmed Ezz ' , 13 , 'Kira W El Gin');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES ( 'Amir Karara' , 14 , 'Casablanca');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES ( 'Eyad Nassar' , 14 , 'Casablanca');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES ( 'Ghada Adel' , 14 , 'Casablanca');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES ( 'Tamer Hosney ' , 15 , 'Omar W Salma');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES ( 'Mai Ezz Eldin' , 15 , 'Omar W Salma');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES ( 'Ahmed mekky' , 16 , 'H Dabor');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES ( 'Karim Abdelaziz' , 17 , 'El Fil El Azrak');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES ( 'Ahmed Helmy' , 18 , 'Keda Reda');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES ( 'Menna Shalaby' , 18 , 'Keda Reda');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES ( 'Amr Yousef' , 19 , 'Hepta');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES ( 'Yasmeen Raes' , 19 , 'Hepta');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES ( 'Ahmed Dawood' , 19 , 'Hepta');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES ( 'Dina El Shrbiny' , 19, 'Hepta');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES ( 'Maged El Kedwany' , 19 , , 'Hepta');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES ( 'Ahmed Helmy' , 20 , 'X large');
+
+INSERT INTO MAIN_CHARACTER (CONTENT_MAIN_CHARACTER, CONTENT_ID , name) 
+VALUES ( 'Donia Samer Ghanem' , 20 , 'X large');
+---------------------------------------------------------------------------
+
+INSERT INTO Content_genre(Content_Id, Content_genre)
+VALUES (1,'Comedy');
+
+INSERT INTO Content_genre(Content_Id, Content_genre)
+VALUES (2,'Horror');
+
+INSERT INTO Content_genre(Content_Id, Content_genre)
+VALUES (2,'Mystrey');
+
+INSERT INTO Content_genre(Content_Id, Content_genre)
+VALUES (3,'Crime');
+
+INSERT INTO Content_genre(Content_Id, Content_genre)
+VALUES (3,'Mystrey');
+
+INSERT INTO Content_genre(Content_Id, Content_genre)
+VALUES (4,'Fantasy');
+
+INSERT INTO Content_genre(Content_Id, Content_genre)
+VALUES (4,'Horror');
+
+INSERT INTO Content_genre(Content_Id, Content_genre)
+VALUES (5,'Crime');
+
+INSERT INTO Content_genre(Content_Id, Content_genre)
+VALUES (5,'Drama');
+
+INSERT INTO Content_genre(Content_Id, Content_genre)
+VALUES (6,'Comedy');
+
+INSERT INTO Content_genre(Content_Id, Content_genre)
+VALUES (7,'Intertainment');
+
+INSERT INTO Content_genre(Content_Id,Content_type)
+VALUES (8,'Intertainment');
+
+INSERT INTO Content_genre(Content_Id,Content_type)
+VALUES (9,'Intertainment');
+
+INSERT INTO Content_genre(Content_Id, Content_genre)
+VALUES (10,'Mystrey');
+
+INSERT INTO Content_genre(Content_Id, Content_genre)
+VALUES (11,'Romance');
+
+INSERT INTO Content_genre(Content_Id, Content_genre)
+VALUES (11,'Drama');
+
+INSERT INTO Content_genre(Content_Id, Content_genre)
+VALUES (12,'Science fiction');
+
+INSERT INTO Content_genre(Content_Id, Content_genre)
+VALUES (13,'Histroy');
+
+INSERT INTO Content_genre(Content_Id, Content_genre)
+VALUES (13,'Drama');
+
+INSERT INTO Content_genre(Content_Id, Content_genre)
+VALUES (14,'Action');
+
+INSERT INTO Content_genre(Content_Id, Content_genre)
+VALUES (15,'Romance');
+
+INSERT INTO Content_genre(Content_Id, Content_genre)
+VALUES (15,'Comedy');
+
+INSERT INTO Content_genre(Content_Id, Content_genre)
+VALUES (16,'Comedy');
+
+INSERT INTO Content_genre(Content_Id, Content_genre)
+VALUES (17,'Mystrey');
+
+INSERT INTO Content_genre(Content_Id, Content_genre)
+VALUES (18,'Comedy');
+
+INSERT INTO Content_genre(Content_Id, Content_genre)
+VALUES (19,'Romance');
+
+INSERT INTO Content_genre(Content_Id, Content_genre)
+VALUES (20,'Comedy');
+
+---------------------------------------------------------------------------
+
+begin 
+
+for i in 1..20
+loop 
+
+  insert into SEARCH_FOR_CONTENT(E_MAIL, CONTENT_ID)
+  values('DanaaAhmed@gmail.com',i);
+
+End loop;
+end;
+---------------------------------------------------------------------------
+begin 
+
+for i in 1..20
+loop 
+
+  insert into SEARCH_FOR_CONTENT(E_MAIL, CONTENT_ID)
+  values('RawanMohamed@gmail.com',i);
+
+End loop;
+end;
+---------------------------------------------------------------------------
+begin 
+
+for i in 1..20
+loop 
+
+  insert into SEARCH_FOR_CONTENT(E_MAIL, CONTENT_ID)
+  values('ShamsMagdy@gmail.com',i);
+
+End loop;
+end;
+---------------------------------------------------------------------------
+begin 
+
+for i in 1..20
+loop 
+
+  insert into SEARCH_FOR_CONTENT(E_MAIL, CONTENT_ID)
+  values('EmanSaid@gmail.com',i);
+
+End loop;
+end;
+---------------------------------------------------------------------------
+begin 
+
+for i in 1..20
+loop 
+
+  insert into SEARCH_FOR_CONTENT(E_MAIL, CONTENT_ID)
+  values('BassantHussein@gmail.com',i);
+
+End loop;
+end;
