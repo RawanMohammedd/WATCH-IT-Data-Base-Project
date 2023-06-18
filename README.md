@@ -1,9 +1,9 @@
 # WATCH-IT-Data-Base-Project
-WATCH IT is a video on-demand service for Arabic content online. With an exclusive collection of various entertainment options of movies and TV .
-●	We store for each user( name , password ,email , birthdate ).
-■	Age will be calculated. 
-●	We store for each subscription (payment amount , period , date , number of screens  , bank card).
-■	expire date will be calculated.
+WATCH IT is a video on-demand service for Arabic content online. With an exclusive collection of various entertainment options of movies and TV . <br>
+●	We store for each user( name , password ,email , birthdate ). <br>
+     ■	Age will be calculated.  <br>
+●	We store for each subscription (payment amount , period , date , number of screens  , bank card). <br>
+     ■	expire date will be calculated. <br>
 ●	We store for each content( id , name , age limit , details ,rate , release date , seasons , type ).
 ■	Content divides into (movies ,series , shows).
 ■	Each series and show contains episodes (duration, number).
